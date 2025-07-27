@@ -41,16 +41,31 @@ This will start:
 - **Frontend** (Next.js): http://localhost:3000
 - **Postgres**: http://localhost:5432 (internal)
 
-### 5. Using the app
 
-1. Open your browser and go to [http://localhost:3000](http://localhost:3000)
-2. Fill in:
-   - **Google Sheet URL** (or ID)
-   - **Postgres Connection String** (should match your backend .env)
-   - **Target Table Name** (the table to sync to)
-   - **API Key** (must match your backend .env)
-3. Click **Sync Now** to start the ETL process.
-4. Use **Check Last Sync Status** to see the result of the last sync.
+### 5. How to Use the App (Once Services Are Running)
+
+1. **Open the Frontend**
+   - Go to [http://localhost:3000](http://localhost:3000) in your web browser.
+
+2. **Fill Out the Form**
+   - **Google Sheet URL**: Paste the link to your public Google Sheet (or use a test link).
+   - **Postgres Connection String**: Use the value from your backend `.env` (default: `postgresql://postgres:postgres@db:5432/sheets2sql`).
+   - **Target Table Name**: Enter the name of the table you want to sync data into (e.g., `my_table`).
+   - **API Key**: Enter the same API key you set in your backend `.env` file.
+
+3. **Start the Sync**
+   - Click the **Sync Now** button.
+   - The backend will attempt to fetch the Google Sheet, clean the data, infer the schema, and upsert it into your Postgres database.
+
+4. **Check Sync Status**
+   - Click **Check Last Sync Status** to see if the sync succeeded and how many rows were processed.
+
+5. **Troubleshooting**
+   - If you see errors, check:
+     - The API key matches in both frontend and backend.
+     - The Google Sheet is public or accessible by your service account.
+     - The Postgres connection string is correct.
+     - Backend logs in the terminal for error details.
 
 ### 6. Stopping the app
 
