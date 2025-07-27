@@ -1,0 +1,8 @@
+fastapi
+gspread
+pandas
+sqlalchemy
+psycopg2-binary
+uvicorn
+python-dotenv
+httpx

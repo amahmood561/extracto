@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: sheets2sql-backend
+    env: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: POSTGRES_CONNECTION_STRING
+        sync: false
+    autoDeploy: true
+  - type: web
+    name: sheets2sql-frontend
+    env: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    autoDeploy: true
