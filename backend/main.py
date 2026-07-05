@@ -60,7 +60,21 @@ def clean_identifier(value: str) -> str:
 def quote_identifier(value: str) -> str:
     return '"' + value.replace('"', '""') + '"'
 
+def mock_sheet() -> pd.DataFrame:
+    return pd.DataFrame([
+        {"Customer ID": 1001, "Company Name": "Acme Analytics", "Plan": "Growth", "MRR": 1299.0, "Active": True, "Created At": "2026-01-12T10:15:00Z", "Notes": ""},
+        {"Customer ID": 1002, "Company Name": "Northstar Labs", "Plan": "Scale", "MRR": 2499.0, "Active": True, "Created At": "2026-02-03T14:20:00Z", "Notes": ""},
+        {"Customer ID": 1003, "Company Name": "Brightline Studio", "Plan": "Starter", "MRR": 199.0, "Active": False, "Created At": "2026-03-18T09:45:00Z", "Notes": ""},
+        {"Customer ID": 1004, "Company Name": "Orbit Systems", "Plan": "Growth", "MRR": 1399.0, "Active": True, "Created At": "2026-04-01T08:00:00Z", "Notes": ""},
+        {"Customer ID": 1005, "Company Name": "Cedar Works", "Plan": "Scale", "MRR": 2799.0, "Active": True, "Created At": "2026-04-22T16:30:00Z", "Notes": ""},
+        {"Customer ID": 1006, "Company Name": "Bluefin Data", "Plan": "Starter", "MRR": 299.0, "Active": True, "Created At": "2026-05-09T13:10:00Z", "Notes": ""},
+        {"Customer ID": 1007, "Company Name": "Harbor Ops", "Plan": "Growth", "MRR": 1199.0, "Active": False, "Created At": "2026-05-29T11:55:00Z", "Notes": ""},
+        {"Customer ID": 1008, "Company Name": "Vertex Cloud", "Plan": "Scale", "MRR": 3199.0, "Active": True, "Created At": "2026-06-14T15:25:00Z", "Notes": ""},
+    ])
+
 def load_sheet(sheet_url: str) -> pd.DataFrame:
+    if sheet_url.strip().lower().startswith("mock://"):
+        return mock_sheet()
     gc = gspread.service_account()
     sh = gc.open_by_url(sheet_url)
     worksheet = sh.sheet1

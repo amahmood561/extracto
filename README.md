@@ -26,6 +26,8 @@ cp frontend/.env.example frontend/.env
 - **GOOGLE_API_KEY**: (Optional) For Google Sheets API if using API key auth. For service account, place your credentials JSON in the backend and update code as needed.
 - **POSTGRES_CONNECTION_STRING**: Example: `postgresql://postgres:postgres@db:5432/sheets2sql`
 
+For a credential-free local demo, use `mock://customers` as the Google Sheet URL. It returns built-in sample customer data, so you can test preview, mapping, and sync without configuring Google credentials.
+
 ### 3. Install Docker & Docker Compose
 
 Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
@@ -53,6 +55,8 @@ Open [http://localhost:3000](http://localhost:3000). The app walks through three
 #### Source
 
 Start with the Sheet URL and API key. Add the destination connection string and target table before running a sync.
+
+Use `mock://customers` as the Sheet URL if you want to try the workflow before connecting a real Google Sheet.
 
 ![Source setup](docs/screenshots/01-source-empty.png)
 

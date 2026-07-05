@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') {
+    res.status(405).end();
+    return;
+  }
   try {
     const baseUrl = (process.env.BACKEND_BASE_URL || process.env.BACKEND_URL || 'http://localhost:8000').replace(/\/(sync|status|preview)\/?$/, '');
     const backendUrl = `${baseUrl.replace(/\/$/, '')}/preview`;
