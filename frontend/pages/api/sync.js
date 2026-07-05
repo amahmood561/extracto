@@ -3,7 +3,8 @@ import axios from 'axios';
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
   try {
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000/sync';
+    const baseUrl = (process.env.BACKEND_BASE_URL || process.env.BACKEND_URL || 'http://localhost:8000').replace(/\/(sync|status|preview)\/?$/, '');
+    const backendUrl = `${baseUrl.replace(/\/$/, '')}/sync`;
     const apiKey = req.headers['x-api-key'] || '';
     const response = await axios.post(
       backendUrl,
