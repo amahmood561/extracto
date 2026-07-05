@@ -42,30 +42,53 @@ This will start:
 - **Postgres**: http://localhost:5432 (internal)
 
 
-### 5. How to Use the App (Once Services Are Running)
+### 5. Use the workflow
 
-1. **Open the Frontend**
-   - Go to [http://localhost:3000](http://localhost:3000) in your web browser.
+Open [http://localhost:3000](http://localhost:3000). The app walks through three steps:
 
-2. **Fill Out the Form**
-   - **Google Sheet URL**: Paste the link to your public Google Sheet (or use a test link).
-   - **Postgres Connection String**: Use the value from your backend `.env` (default: `postgresql://postgres:postgres@db:5432/sheets2sql`).
-   - **Target Table Name**: Enter the name of the table you want to sync data into (e.g., `my_table`).
-   - **API Key**: Enter the same API key you set in your backend `.env` file.
+1. **Source**: Enter a Google Sheet URL and the backend API key.
+2. **Map**: Preview rows, review detected columns, rename columns, choose SQL types, and disable columns you do not want to sync.
+3. **Run**: Choose the sync mode, confirm the execution plan, and run the sync into Postgres.
 
-3. **Start the Sync**
-   - Click the **Sync Now** button.
-   - The backend will attempt to fetch the Google Sheet, clean the data, infer the schema, and upsert it into your Postgres database.
+#### Source
 
-4. **Check Sync Status**
-   - Click **Check Last Sync Status** to see if the sync succeeded and how many rows were processed.
+Start with the Sheet URL and API key. Add the destination connection string and target table before running a sync.
 
-5. **Troubleshooting**
-   - If you see errors, check:
-     - The API key matches in both frontend and backend.
-     - The Google Sheet is public or accessible by your service account.
-     - The Postgres connection string is correct.
-     - Backend logs in the terminal for error details.
+![Source setup](docs/screenshots/01-source-empty.png)
+
+![Configured source](docs/screenshots/02-source-configured.png)
+
+#### Preview and map
+
+Click **Load preview** to inspect the first worksheet before writing anything to Postgres. The preview shows row count, column count, warnings, inferred SQL types, editable destination column names, and sample rows.
+
+![Preview and mapping](docs/screenshots/03-preview-map.png)
+
+#### Run sync
+
+Choose one of the sync modes:
+
+- **Append rows**: Insert all rows into the target table.
+- **Replace table**: Drop and recreate the target table before inserting rows.
+- **Upsert by key**: Insert rows or update existing rows using the selected primary key.
+
+Review the execution plan, then click **Run sync**.
+
+![Run plan](docs/screenshots/04-run-plan.png)
+
+After the sync finishes, the result panel shows status and rows processed.
+
+![Sync result](docs/screenshots/05-sync-result.png)
+
+#### Troubleshooting
+
+If you see errors, check:
+
+- The API key matches in both frontend and backend.
+- The Google Sheet is accessible by the configured Google service account.
+- `gspread` can find service account credentials, usually at `~/.config/gspread/service_account.json`.
+- The Postgres connection string is correct.
+- Backend logs include the detailed error.
 
 ### 6. Stopping the app
 
@@ -73,11 +96,6 @@ Press `Ctrl+C` in your terminal, then run:
 ```sh
 docker-compose down
 ```
-
----
-
-## Development
-...existing code...
 
 ## Development
 - Backend: FastAPI in `/backend`
